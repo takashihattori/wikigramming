@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<head>
+<%= @contents[:header] %>
+</head>
+
+<body>
+<div class="<%= @contents[:view_style] %>">
+<div class="adminmenu"><%= @contents[:tools] %></div>
+<h1 class="header"><%= @contents[:edit_title] %></h1>
+
+<div class="update day">
+  <% if @contents[:msg] %><div class="msg"><strong><%= @contents[:msg] %></strong></div><% end %>
+  <% if @contents[:body] %><div class="preview"><%= @contents[:body] %></div><% end %>
+  <% if @contents[:differ] %><div><%= @contents[:differ] %></div><% end %>
+<div class="form">
+  <form class="update" action="<%= @contents[:cgi_name] %>" method="POST">
+    <input type="hidden" name="p" value="<%= @contents[:pagename] %>">
+    <input type="hidden" name="c" value="save">
+    <input type="hidden" name="md5hex" value="<%= @contents[:md5hex] %>">
+    <input type="hidden" name="session_id" value="<%=@contents[:session_id]%>">
+    <a name="form"></a>
+    <p>
+      <%=@conf.msg_description%><br/>
+      <textarea cols="80" rows="20" name="doc"><%= @contents[:doc] %></textarea>
+    </p>
+    <p>
+      (define ( <input type="text" name="fun" size="40" value="<%= @contents[:fun] %>"/>  ;; <%=@conf.msg_funcname%><br/>
+      <input type="text" name="arg" size="60" value="<%= @contents[:arg] %>"/> ) ;; <%=@conf.msg_funcarg%><br/>
+      ;; <%=@conf.msg_funcbody%><br/>
+      <textarea cols="80" rows="20" name="src"><%= @contents[:src] %></textarea><br/>
+      )<br/>
+      (wiki-require ;; <%=@conf.msg_require_test%><br/>
+      <textarea cols="80" rows="20" name="req"><%= @contents[:req] %></textarea><br/>
+      )
+    </p>
+    <p>
+      <input type="submit" name="save" value="<%=@conf.msg_save%>">
+      <input type="submit" name="cancel" value="<%=@conf.msg_cancel%>">
+    </p>
+    <% if @plugin.admin? %>
+    <p>
+      <input type="checkbox" name="freeze" value="on"<%= @contents[:freeze] %>><%=@conf.msg_freeze_checkbox%> 
+    </p>
+    <% end %>
+  </form>
+  <% if @contents[:link] %><div>
+    <%=@conf.msg_latest%>: [<%= @contents[:link] %>]
+  </div><% end %>
+</div>
+</div>
+
+<hr class="sep">
+
+<% unless @contents[:form_proc].empty? %><div class="update day"><%= @contents[:form_proc] %></div><% end %>
+
+<div class="footer"><%= @contents[:footer] %></div>
+</body>
+</html>
